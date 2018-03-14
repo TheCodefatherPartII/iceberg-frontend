@@ -21,7 +21,8 @@
       </ul>
     </div>
     <div id="app" class="main-content" v-if="!loading && selectedAccountName">
-      <Map :transactions="transactions"/>
+      <!-- <Map :transactions="transactions"/> -->
+      <Map />
       <TimeSlider
               :start-time="startTime"
               :end-time="endTime"

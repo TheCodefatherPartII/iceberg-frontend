@@ -3,6 +3,9 @@
       (toTime.getTime() - fromTime.getTime()) / 10000;
     import TimeChart, {buildChartData, chartOptions} from './TimeChart.js';
     import Icon from 'vue-awesome'
+    import isequal from 'lodash.isequal';
+    import { eventBus } from '../main';
+
     export default {
     name: 'TimeSlider',
       components: {
@@ -26,6 +29,9 @@
           Math.max(0, xPos),
           this.$refs.timetrack.getBoundingClientRect().width - 50
         ) / this.widthIncrement);
+      },
+      emitNewEvents(currentTransactions) {
+        eventBus.$emit('newEvents', currentTransactions);
       }
     },
     data() {
@@ -38,6 +44,7 @@
     },
     created() {
       this.timeSpan = timeDiff(this.startTime, this.endTime);
+      this.lastTransactions = [];
     },
     mounted() {
       const rect = this.$refs.timetrack.getBoundingClientRect();
@@ -52,7 +59,13 @@
           }
           const offsetTime = 10000 * this.timeSpan * ((this.currentTime * this.widthIncrement) / rect.width);
           const actualTime = new Date(this.startTime.getTime() + offsetTime);
-          // console.log(actualTime, '/', this.timeSpan)
+
+          // console.log('🦖', actualTime, '/', this.timeSpan);
+          const currentTransactions = this.transactions.filter(t => (new Date(t.timestamp)) < actualTime);
+          if (!isequal(currentTransactions, this.lastTransactions)) {
+            this.lastTransactions = currentTransactions;
+            this.emitNewEvents(currentTransactions);
+          }
         }
       }, 250);
     },
