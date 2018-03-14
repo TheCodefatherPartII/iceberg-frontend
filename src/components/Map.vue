@@ -70,6 +70,9 @@ Vue.use(VueGoogleMaps, {
   }
 });
 
+// Hold the map markers.
+var mapMarkers;
+const drawTrafficLater = map => {
 const heatMapData = [
   {location: new google.maps.LatLng(-33.924443, 151.156456), weight: 0.5},
   {location: new google.maps.LatLng(-33.924137, 151.156512), weight: 1},
@@ -85,10 +88,6 @@ const heatMapData = [
   {location: new google.maps.LatLng(-33.881421, 151.207303), weight: 2},
 ];
 
-
-// Hold the map markers.
-var mapMarkers;
-const drawTrafficLater = map => {
   // let trafficLayer = new google.maps.TrafficLayer();
   // trafficLayer.setMap(map);
   const heatmap = new google.maps.visualization.HeatmapLayer({data: heatMapData});
