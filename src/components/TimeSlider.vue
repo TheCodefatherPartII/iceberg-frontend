@@ -112,6 +112,7 @@
         border: 2px solid white;
         color: white;
         margin-left: 10px;
+        cursor: pointer;
     }
 
     .time-track {
@@ -136,6 +137,7 @@
         width: 1px;
         height: 100%;
         position: absolute;
+        cursor: pointer;
     }
     
     .time-chart {
