@@ -3,6 +3,7 @@
     :center="center"
     :zoom="7"
     style="width: 1024px; height: 640px"
+    ref="map"
   >
     <gmap-marker
       :key="index"
@@ -17,6 +18,7 @@
 
 <script>
 import * as VueGoogleMaps from 'vue2-google-maps';
+import {loaded} from 'vue2-google-maps'
 import Vue from 'vue';
 import providers from '../providers';
 
@@ -40,8 +42,18 @@ export default {
       })
     }, {});
     return mapConfig;
+  },
+  mounted() {
+    const map = this.$refs.map;
+    loaded.then(() => {
+      let trafficLayer = new google.maps.TrafficLayer;
+      map.$mapCreated.then(theMap => {
+        trafficLayer.setMap(theMap);
+      });
+    });
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

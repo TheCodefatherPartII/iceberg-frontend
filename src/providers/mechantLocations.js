@@ -1,6 +1,6 @@
 export default () => ({
-  center: { lat: 10.0, lng: 10.0 },
+  center: { lat: -33.0, lng: 151.0 },
   markers: [{
-    position: { lat: 11.0, lng: 11.0 }
+    position: { lat: -33.0, lng: 151.0 }
   }]
 });
