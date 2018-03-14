@@ -3,4 +3,4 @@ export default () => ({
   markers: [{
     position: { lat: -33.928513, lng: 151.154053 }
   }]
-});
+})
