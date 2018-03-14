@@ -1,5 +1,5 @@
 export default () => ({
   markers: [{
-    position: { lat: -34.0, lng: 152.0 }
+    position: { lat: -33.936929, lng: 151.146726 }
   }]
 });
