@@ -65,20 +65,39 @@ import mapStyles from "../config/mapStyles";
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyBRFyLekDBT0Zh0fF0I2zpcto38orRJ5OA"
-    // libraries: 'places', //// If you need to use place input
+    key: "AIzaSyBRFyLekDBT0Zh0fF0I2zpcto38orRJ5OA",
+    libraries: 'visualization',
   }
 });
+
+const heatMapData = [
+  {location: new google.maps.LatLng(-33.924443, 151.156456), weight: 0.5},
+  {location: new google.maps.LatLng(-33.924137, 151.156512), weight: 1},
+  {location: new google.maps.LatLng(-33.923989, 151.156512), weight: 2},
+  {location: new google.maps.LatLng(-33.923244, 151.156422), weight: 2.5},
+  new google.maps.LatLng(-33.891553, 151.198384),
+  {location: new google.maps.LatLng(-33.914622, 151.165834), weight: 2},
+  {location: new google.maps.LatLng(-33.9075952, 151.180907), weight: 3},
+  {location: new google.maps.LatLng(-33.900063, 151.185382), weight: 2},
+  new google.maps.LatLng(-33.896862, 151.186208),
+  {location: new google.maps.LatLng(-33.891555, 151.198656), weight: 0.5},
+  {location: new google.maps.LatLng(-33.882062, 151.205801), weight: 3},
+  {location: new google.maps.LatLng(-33.881421, 151.207303), weight: 2},
+];
+
 
 // Hold the map markers.
 var mapMarkers;
 const drawTrafficLater = map => {
   // let trafficLayer = new google.maps.TrafficLayer();
   // trafficLayer.setMap(map);
+  const heatmap = new google.maps.visualization.HeatmapLayer({data: heatMapData});
+  heatmap.setMap(map);
   const transitLayer = new google.maps.TransitLayer();
   transitLayer.setMap(map);
-  const bikeLayer = new google.maps.BicyclingLayer();
-  bikeLayer.setMap(map);
+  // const bikeLayer = new google.maps.BicyclingLayer();
+  // bikeLayer.setMap(map);
+
 };
 const joinMarkers = (map, pathPoints) => {
   var lineSymbol = {
