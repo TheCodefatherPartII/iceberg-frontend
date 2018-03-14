@@ -5,7 +5,7 @@
       <div><span>Iceberg</span></div>
     </div>
     <div id="app">
-      <Map msg="Welcome to Your Vue.js App"/>
+      <Map :transactions="transactions"/>
       <TimeSlider
               :start-time="startTime"
               :end-time="endTime"
@@ -33,23 +33,33 @@ export default {
     const transactions = [
       {
         eventTime: new Date(2018, 2, 14, 0, 0, 0),
-        amount: -5120
+        amount: -5120,
+        lat: -33.924443,
+        lng: 151.156456,
       },
       {
         eventTime: new Date(2018, 2, 14, 0, 25, 0),
-        amount: -9500
+        amount: -9500,
+        lat: -33.923989,
+        lng: 151.156512, 
       },
       {
         eventTime: new Date(2018, 2, 14, 2, 25, 0),
-        amount: 500
+        amount: 500,
+        lat: -33.914622,
+        lng: 151.165834,
       },
       {
         eventTime: new Date(2018, 2, 14, 6, 25, 0),
-        amount: 6500
+        amount: 6500,
+        lat: -33.9075952,
+        lng: 151.180907,
       },
       {
         eventTime: new Date(2018, 2, 14, 7, 25, 0),
-        amount: 8200
+        amount: 8200,
+        lat: -33.896862,
+        lng: 151.186208,
       },
     ];
     return {

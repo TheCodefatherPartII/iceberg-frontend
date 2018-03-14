@@ -133,9 +133,12 @@ function animateLineMarker(line) {
 }
 
 export default {
+  props: {
+    transactions: Array,
+  },
   data() {
     const mapConfig = providers.reduce((currentConfig, provider) => {
-      const providerConfig = provider(currentConfig);
+      const providerConfig = provider(this.transactions, currentConfig);
       mapMarkers = [
         ...(currentConfig.markers || []),
         ...(providerConfig.markers || [])
