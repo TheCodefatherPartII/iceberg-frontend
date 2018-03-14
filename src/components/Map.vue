@@ -30,12 +30,12 @@ Vue.use(VueGoogleMaps, {
 export default {
   data () {
     const mapConfig = providers.reduce((currentConfig, provider) => {
-      const providerConfig = provider();
+      const providerConfig = provider(currentConfig);
       return ({
         ...currentConfig,
         ...providerConfig,
         markers: [
-          ...(currentConfig.markers || {}), ...(providerConfig.markers || {})
+          ...(currentConfig.markers || []), ...(providerConfig.markers || [])
         ]
       })
     }, {});
