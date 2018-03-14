@@ -19,6 +19,7 @@
           :position="m.position"
           :clickable="true"
           :draggable="false"
+          :animation=2
           :icon="{url:'https://image.ibb.co/dsuOVH/google_map_icon_google_maps_icon_blank_md.png'}"
           @click="center=m.position"
         ></gmap-marker>
@@ -60,7 +61,7 @@ import * as VueGoogleMaps from "vue2-google-maps";
 import { loaded } from "vue2-google-maps";
 import Vue from "vue";
 import providers from "../providers";
-import mapStyles from '../config/mapStyles'
+import mapStyles from "../config/mapStyles";
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -77,8 +78,8 @@ const drawTrafficLater = map => {
 };
 const joinMarkers = (map, pathPoints) => {
   var lineSymbol = {
-          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-        };
+    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+  };
   var pathPoints = mapMarkers.map(marker => {
     return marker.position;
   });
@@ -88,10 +89,12 @@ const joinMarkers = (map, pathPoints) => {
     strokeColor: "#0000ff",
     strokeOpacity: 1.0,
     strokeWeight: 5,
-    icons: [{
-            icon: lineSymbol,
-            offset: '100%'
-          }],
+    icons: [
+      {
+        icon: lineSymbol,
+        offset: "100%"
+      }
+    ]
   });
   path.setMap(map);
 };
