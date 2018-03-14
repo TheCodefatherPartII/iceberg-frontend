@@ -62,6 +62,7 @@ import { loaded } from "vue2-google-maps";
 import Vue from "vue";
 import providers from "../providers";
 import mapStyles from "../config/mapStyles";
+import api from '../api';
 
 Vue.use(VueGoogleMaps, {
   load: {
