@@ -86,7 +86,7 @@ const joinMarkers = (map, pathPoints) => {
   var path = new google.maps.Polyline({
     path: pathPoints,
     geodesic: true,
-    strokeColor: "#0000ff",
+    strokeColor: "#FFFFFF",
     strokeOpacity: 1.0,
     strokeWeight: 5,
     icons: [
@@ -97,7 +97,19 @@ const joinMarkers = (map, pathPoints) => {
     ]
   });
   path.setMap(map);
+  animateLineMarker(path);
 };
+
+function animateLineMarker(line) {
+  var count = 0;
+  window.setInterval(function() {
+    count = (count + 1) % 200;
+    var icons = line.get("icons");
+    icons[0].offset = count / 2 + "%";
+    line.set("icons", icons);
+  }, 20);
+}
+
 export default {
   data() {
     const mapConfig = providers.reduce((currentConfig, provider) => {
