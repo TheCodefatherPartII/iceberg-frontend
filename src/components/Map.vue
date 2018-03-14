@@ -137,7 +137,6 @@ export default {
     transactions: Array,
   },
   data() {
-    console.log(this.transactions);
     const mapConfig = providers.reduce((currentConfig, provider) => {
       const providerConfig = provider(this.transactions, currentConfig);
       mapMarkers = [

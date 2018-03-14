@@ -35,7 +35,7 @@
 
 <script>
 import api from './api';
-  import Map from './components/Map.vue'
+import Map from './components/Map.vue'
 import TimeSlider from './components/TimeSlider.vue'
 import Icon from 'vue-awesome'
 
@@ -58,7 +58,9 @@ export default {
           this.selectedAccountName = name
           this.transactions = response.data.map(t => ({
             timestamp: new Date(t.timestamp),
-            amount: parseFloat(t.amount.replace('$', ''))
+            amount: parseFloat(t.amount.replace('$', '')),
+            lat: parseFloat(t.lat),
+            lng: parseFloat(t.lng),
           }))
         });
     }

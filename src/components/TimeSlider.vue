@@ -52,7 +52,7 @@
           }
           const offsetTime = 10000 * this.timeSpan * ((this.currentTime * this.widthIncrement) / rect.width);
           const actualTime = new Date(this.startTime.getTime() + offsetTime);
-          console.log(actualTime, '/', this.timeSpan)
+          // console.log(actualTime, '/', this.timeSpan)
         }
       }, 250);
     },
