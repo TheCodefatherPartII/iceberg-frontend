@@ -110,7 +110,7 @@ body {
 .overlay-menu-controls {
   padding: 10px;
   background: #182027;
-  opacity: 0.75;
+  opacity: 0.8;
 }
 .overlay-menu-header {
   padding: 10px;
