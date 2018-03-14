@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="top">
       <img src="./assets/iceberg-icon.png" width="50" height="auto">
-      <div>Iceberg</div>
+      <div>Project Iceberg</div>
       <div v-if="selectedAccountName" class="flex-end">
         <span>Currently investigating:&nbsp;</span>
         <span class="clickable underline" @click="clearAccount">{{selectedAccountName}}</span>

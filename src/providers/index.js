@@ -1,9 +1,9 @@
 import merchantLocations from './mechantLocations';
-import placeholderProvider from './placeholderProvider';
+// import placeholderProvider from './placeholderProvider';
 
 const providers = [
   merchantLocations,
-  placeholderProvider,
+  // placeholderProvider,
 ];
 
 export default providers;
