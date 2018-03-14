@@ -5,7 +5,12 @@
         :center="center"
         :zoom="7"
         style="width: 100%; height: 640px"
-        :options="{styles: mapStyles}"
+        :options="{
+          styles: mapStyles,
+          mapTypeControlOptions: {
+            mapTypeIds: []
+          },
+        }"
         ref="map"
       >
         <gmap-marker
