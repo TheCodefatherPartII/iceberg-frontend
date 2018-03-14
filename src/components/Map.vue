@@ -37,13 +37,14 @@
         <br>
         <br>
         <div class="overlay-menu-controls-checkboxes">
-          <input type="checkbox" name="crime" value="fin">Financial Activity<br>
-          <input type="checkbox" name="crime" value="geo">Geographic Location<br>
-          <input type="checkbox" name="crime" value="social">Interpersonal Network<br>
-          <input type="checkbox" name="crime" value="social">Social Media Activity Location<br>
-          <input type="checkbox" name="crime" value="social">Check-ins<br>
-          <input type="checkbox" name="crime" value="social">Suspicious Persons on Network<br>
+          <input type="checkbox" name="crime" value="fin">&nbsp;Financial Activity<br>
+          <input type="checkbox" name="crime" value="geo">&nbsp;Geographic Location<br>
+          <input type="checkbox" name="crime" value="social">&nbsp;Interpersonal Network<br>
+          <input type="checkbox" name="crime" value="social">&nbsp;Social Media Activity Location<br>
+          <input type="checkbox" name="crime" value="social">&nbsp;Check-ins<br>
+          <input type="checkbox" name="crime" value="social">&nbsp;Suspicious Persons on Network<br>
         </div>
+        <br>
       </div>
       <div class="overlay-menu-footer">
         <span>Deposits</span><br>

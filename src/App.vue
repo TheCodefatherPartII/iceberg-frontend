@@ -51,7 +51,7 @@ body {
 }
 .overlay-menu {
   position: absolute;
-  width: 200px;
+  width: 210px;
   top: 70px;
   left: 30px;
   z-index: 99;
