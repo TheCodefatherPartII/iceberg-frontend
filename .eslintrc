@@ -1,9 +1,0 @@
-{
-  "extends": [
-    "plugin:vue/essential"
-  ],
-  "rules": {},
-  "globals": {
-    "google": true
-  }
-}
