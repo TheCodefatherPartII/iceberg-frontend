@@ -16,7 +16,7 @@ const styles = [
         "gamma": 0.5
       },
       {
-        "hue": 3.14
+        "hue": "#642A0D"
       }
     ]
   }
