@@ -13,7 +13,8 @@
           v-for="(m, index) in markers"
           :position="m.position"
           :clickable="true"
-          :draggable="true"
+          :draggable="false"
+          :icon="{url:'https://image.ibb.co/dsuOVH/google_map_icon_google_maps_icon_blank_md.png'}"
           @click="center=m.position"
         ></gmap-marker>
       </gmap-map>
