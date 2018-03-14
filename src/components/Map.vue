@@ -73,8 +73,10 @@ Vue.use(VueGoogleMaps, {
 // Hold the map markers.
 var mapMarkers;
 const drawTrafficLater = map => {
-  let trafficLayer = new google.maps.TrafficLayer();
-  trafficLayer.setMap(map);
+  // let trafficLayer = new google.maps.TrafficLayer();
+  // trafficLayer.setMap(map);
+  let transitLayer = new google.maps.TransitLayer();
+  transitLayer.setMap(map);
 };
 const joinMarkers = (map, pathPoints) => {
   var lineSymbol = {
