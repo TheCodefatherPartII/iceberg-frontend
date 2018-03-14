@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="top">
-      <img src="./assets/iceberg-icon.png" style="height: 5vh;">
+      <img src="./assets/iceberg-icon.png" style="height: 10vh;">
       <div><span>Iceberg</span></div>
     </div>
     <div id="app">
@@ -84,11 +84,11 @@ body {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100% - 5vh);
+  height: calc(100% - 10vh);
 }
 .top {
   width: 100%;
-  height: 5vh;
+  height: 10vh;
   display: flex;
   align-items: center;
   background-color: #182027;
