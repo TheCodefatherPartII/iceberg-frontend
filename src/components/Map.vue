@@ -1,7 +1,7 @@
 <template>
   <gmap-map
     :center="center"
-    :zoom="7"
+    :zoom="15"
     style="width: 1024px; height: 640px"
     :options="{styles: mapStyles}"
     ref="map"
@@ -396,17 +396,44 @@ const styles = [
   }
 ];
 
+// Hold the map markers.
+var mapMarkers;
+const drawTrafficLater = map => {
+  let trafficLayer = new google.maps.TrafficLayer();
+  trafficLayer.setMap(map);
+};
+const joinMarkers = (map, pathPoints) => {
+  var lineSymbol = {
+          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+        };
+  var pathPoints = mapMarkers.map(marker => {
+    return marker.position;
+  });
+  var path = new google.maps.Polyline({
+    path: pathPoints,
+    geodesic: true,
+    strokeColor: "#0000ff",
+    strokeOpacity: 1.0,
+    strokeWeight: 5,
+    icons: [{
+            icon: lineSymbol,
+            offset: '100%'
+          }],
+  });
+  path.setMap(map);
+};
 export default {
   data() {
     const mapConfig = providers.reduce((currentConfig, provider) => {
       const providerConfig = provider(currentConfig);
+      mapMarkers = [
+        ...(currentConfig.markers || []),
+        ...(providerConfig.markers || [])
+      ];
       return {
         ...currentConfig,
         ...providerConfig,
-        markers: [
-          ...(currentConfig.markers || []),
-          ...(providerConfig.markers || [])
-        ]
+        markers: mapMarkers
       };
     }, {});
     return mapConfig;
@@ -414,9 +441,12 @@ export default {
   mounted() {
     const map = this.$refs.map;
     loaded.then(() => {
-      let trafficLayer = new google.maps.TrafficLayer();
+      // After map is loaded.
       map.$mapCreated.then(theMap => {
-        trafficLayer.setMap(theMap);
+        // Add traffic layer.
+        drawTrafficLater(theMap);
+        // Let's join the markers via path.
+        joinMarkers(theMap);
       });
     });
   },
