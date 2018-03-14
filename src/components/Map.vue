@@ -1,10 +1,10 @@
 <template>
   <div class="map-container">
-    <div class="google-map">
+    <div class="google-map wrapper">
       <gmap-map
+              class="wrapper"
         :center="center"
         :zoom="15"
-        style="width: 100%; height: 640px"
         :options="{
           styles: mapStyles,
           mapTypeControlOptions: {
@@ -38,12 +38,12 @@
         <br>
         <br>
         <div class="overlay-menu-controls-checkboxes">
-          <input type="checkbox" name="crime" value="fin">&nbsp;Financial Activity<br>
-          <input type="checkbox" name="crime" value="geo">&nbsp;Geographic Location<br>
-          <input type="checkbox" name="crime" value="social">&nbsp;Interpersonal Network<br>
-          <input type="checkbox" name="crime" value="social">&nbsp;Social Media Activity Location<br>
-          <input type="checkbox" name="crime" value="social">&nbsp;Check-ins<br>
-          <input type="checkbox" name="crime" value="social">&nbsp;Suspicious Persons on Network<br>
+          <label><input type="checkbox" name="crime" value="fin">&nbsp;Financial Activity</label><br>
+          <label><input type="checkbox" name="crime" value="geo">&nbsp;Geographic Location</label><br>
+          <label><input type="checkbox" name="crime" value="social">&nbsp;Interpersonal Network</label><br>
+          <label><input type="checkbox" name="crime" value="social">&nbsp;Social Media Activity Location</label><br>
+          <label><input type="checkbox" name="crime" value="social">&nbsp;Check-ins</label><br>
+          <label><input type="checkbox" name="crime" value="social">&nbsp;Suspicious Persons on Network</label><br>
         </div>
         <br>
       </div>
@@ -148,18 +148,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+  .map-container {
+    width: 100%;
+    height: calc(100% - 10vh);
+  }
 </style>

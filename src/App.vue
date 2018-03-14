@@ -1,22 +1,64 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div class="top">
-      <img src="./assets/iceberg-icon.png" style="height: 60px;">
+      <img src="./assets/iceberg-icon.png" style="height: 5vh;">
       <div><span>Iceberg</span></div>
     </div>
     <div id="app">
       <Map msg="Welcome to Your Vue.js App"/>
+      <TimeSlider
+              :start-time="startTime"
+              :end-time="endTime"
+              :transactions="transactions"
+              :min-amount="minAmount"
+              :max-amount="maxAmount"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import Map from './components/Map.vue'
+import TimeSlider from './components/TimeSlider.vue'
+import Icon from 'vue-awesome'
 
 export default {
   name: 'app',
   components: {
-    Map
+    Map,
+    TimeSlider,
+    Icon,
+  },
+  data() {
+    const transactions = [
+      {
+        eventTime: new Date(2018, 2, 14, 0, 0, 0),
+        amount: -5120
+      },
+      {
+        eventTime: new Date(2018, 2, 14, 0, 25, 0),
+        amount: -9500
+      },
+      {
+        eventTime: new Date(2018, 2, 14, 2, 25, 0),
+        amount: 500
+      },
+      {
+        eventTime: new Date(2018, 2, 14, 6, 25, 0),
+        amount: 6500
+      },
+      {
+        eventTime: new Date(2018, 2, 14, 7, 25, 0),
+        amount: 8200
+      },
+    ];
+    return {
+      transactions,
+      startTime: new Date(Math.min.apply(Math, transactions.map(t => t.eventTime.getTime()))),
+      endTime: new Date(Math.max.apply(Math, transactions.map(t => t.eventTime.getTime()))),
+      minAmount: Math.min.apply(Math, transactions.map(t => t.amount)),
+      maxAmount: Math.max.apply(Math, transactions.map(t => t.amount)),
+    };
   }
 }
 </script>
@@ -28,7 +70,9 @@ html {
   font-family: 'Open Sans', sans-serif;
 }
 body {
-  height: 100%; margin: 0px; padding: 0px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
   background-color: #182027;
   }
 #app {
@@ -37,10 +81,14 @@ body {
   color: #2c3e50;
   /* margin-top: 60px; */
   font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100% - 5vh);
 }
 .top {
   width: 100%;
-  height: 60px;
+  height: 5vh;
   display: flex;
   align-items: center;
   background-color: #182027;
@@ -75,5 +123,9 @@ body {
 .overlay-menu-controls-checkboxes {
   font-size: 11px;
 }
-
+  
+  .wrapper {
+    width: 100%;
+    height: 100%;
+  }
 </style>
