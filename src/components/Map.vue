@@ -137,6 +137,7 @@ export default {
     transactions: Array,
   },
   data() {
+    console.log(this.transactions);
     const mapConfig = providers.reduce((currentConfig, provider) => {
       const providerConfig = provider(this.transactions, currentConfig);
       mapMarkers = [
@@ -175,6 +176,6 @@ export default {
 <style scoped>
   .map-container {
     width: 100%;
-    height: calc(100% - 10vh);
+    height: calc(100% - 20vh);
   }
 </style>

@@ -96,7 +96,7 @@
     .time-slider {
         display: flex;
         width: 100%;
-        height: 10vh;
+        height: 20vh;
         margin: 0 auto;
         align-items: center;
         box-shadow: 0px -2px 6px 0px rgba(0,0,0,0.75);

@@ -42,7 +42,7 @@ export const chartOptions = {
 
 export const buildChartData = (events) => {
   return {
-    labels: events.map(e => formatDate(e.eventTime)),
+    labels: events.map(e => formatDate(e.timestamp)),
     datasets: [
       {
         label: 'Deposits',
