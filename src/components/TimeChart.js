@@ -46,16 +46,16 @@ export const buildChartData = (events) => {
     datasets: [
       {
         label: 'Deposits',
-        backgroundColor: 'rgba(255, 135, 44, 0.5)',
-        borderColor: 'rgba(255, 135, 44, 0.9)',
+        backgroundColor: 'rgba(234, 118, 72, 0.5)',
+        borderColor: 'rgba(234, 118, 72, 0.9)',
         borderWidth: 1,
         lineTension: 0.1,
         data: events.map(e => e.amount).map(a => a < 0 ? 0 : a)
       },
       {
         label: 'Withdrawals',
-        backgroundColor: 'rgba(116, 44, 120, 0.5)',
-        borderColor: 'rgba(116, 44, 120, 0.9)',
+        backgroundColor: 'rgba(123, 245, 74, 0.5)',
+        borderColor: 'rgba(123, 245, 74, 0.9)',
         borderWidth: 1,
         lineTension: 0.1,
         data: events.map(e => e.amount).map(a => a >= 0 ? 0 : Math.abs(a))
