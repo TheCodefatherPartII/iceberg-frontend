@@ -1,20 +1,49 @@
 <template>
-  <gmap-map
-    :center="center"
-    :zoom="7"
-    style="width: 1024px; height: 640px"
-    :options="{styles: mapStyles}"
-    ref="map"
-  >
-    <gmap-marker
-      :key="index"
-      v-for="(m, index) in markers"
-      :position="m.position"
-      :clickable="true"
-      :draggable="true"
-      @click="center=m.position"
-    ></gmap-marker>
-  </gmap-map>
+  <div class="map-container">
+    <div class="google-map">
+      <gmap-map
+        :center="center"
+        :zoom="7"
+        style="width: 100%; height: 640px"
+        :options="{styles: mapStyles}"
+        ref="map"
+      >
+        <gmap-marker
+          :key="index"
+          v-for="(m, index) in markers"
+          :position="m.position"
+          :clickable="true"
+          :draggable="true"
+          @click="center=m.position"
+        ></gmap-marker>
+      </gmap-map>
+    </div>
+    <div class="overlay-menu">
+      <div class="overlay-menu-header">
+        <span>Criminal Doe</span>
+        <br />
+        <span>23423434234234</span>
+        <br />
+        <br />
+        <br />
+      </div>
+      <div class="overlay-menu-controls">
+        <span>23 March 2018</span>
+        <br>
+        <input type="checkbox" name="crime" value="fin">Financial Activity<br>
+        <input type="checkbox" name="crime" value="geo">Geographic Location<br>
+        <input type="checkbox" name="crime" value="social">Interpersonal Network<br>
+        <input type="checkbox" name="crime" value="social">Social Media Activity Location<br>
+        <input type="checkbox" name="crime" value="social">Check-ins<br>
+        <input type="checkbox" name="crime" value="social">Suspicious Persons on Interpersonal Network<br>
+      </div>
+      <div class="overlay-menu-footer">
+        <span>Deposits</span><br>
+        <span>Withdraws</span><br>
+        <span>Geographic location</span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
