@@ -25,17 +25,19 @@
         <span>23423434234234</span>
         <br />
         <br />
-        <br />
       </div>
       <div class="overlay-menu-controls">
         <span>23 March 2018</span>
         <br>
-        <input type="checkbox" name="crime" value="fin">Financial Activity<br>
-        <input type="checkbox" name="crime" value="geo">Geographic Location<br>
-        <input type="checkbox" name="crime" value="social">Interpersonal Network<br>
-        <input type="checkbox" name="crime" value="social">Social Media Activity Location<br>
-        <input type="checkbox" name="crime" value="social">Check-ins<br>
-        <input type="checkbox" name="crime" value="social">Suspicious Persons on Interpersonal Network<br>
+        <br>
+        <div class="overlay-menu-controls-checkboxes">
+          <input type="checkbox" name="crime" value="fin">Financial Activity<br>
+          <input type="checkbox" name="crime" value="geo">Geographic Location<br>
+          <input type="checkbox" name="crime" value="social">Interpersonal Network<br>
+          <input type="checkbox" name="crime" value="social">Social Media Activity Location<br>
+          <input type="checkbox" name="crime" value="social">Check-ins<br>
+          <input type="checkbox" name="crime" value="social">Suspicious Persons on Network<br>
+        </div>
       </div>
       <div class="overlay-menu-footer">
         <span>Deposits</span><br>
