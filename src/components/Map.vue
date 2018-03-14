@@ -3,7 +3,7 @@
     <div class="google-map">
       <gmap-map
         :center="center"
-        :zoom="7"
+        :zoom="15"
         style="width: 100%; height: 640px"
         :options="{
           styles: mapStyles,
