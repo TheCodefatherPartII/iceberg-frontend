@@ -1,10 +1,12 @@
 <template>
-  <div class="card">
-    <div class="content">
+  <div class="card card-map">
+    <div class="header">
+      <h4 class="title">Google Maps</h4>
+    </div>
+    <div class="map">
       <gmap-map
         :center="center"
         :zoom="7"
-        style="width: 1024px; height: 640px"
         :options="{styles: mapStyles}"
         ref="map"
       >
@@ -15,7 +17,7 @@
           :clickable="true"
           :draggable="true"
           @click="center=m.position"
-        ></gmap-marker>
+        />
       </gmap-map>
     </div>
   </div>
