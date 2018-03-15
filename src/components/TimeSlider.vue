@@ -147,13 +147,8 @@
         flex-direction: column;
         position: relative;
         align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        border: 2px solid white;
-        color: #F0F3FE;
-        margin-left: 10px;
-        cursor: pointer;
         justify-content: space-around;
+        color: white;
         width: 80px;
     }
 
