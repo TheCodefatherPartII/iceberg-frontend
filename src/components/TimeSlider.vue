@@ -61,6 +61,12 @@
         const xPos = event.x - this.left - 26;
         this.currentPosition = Math.round(xPos / this.widthPerItem);
         this.currentTime = this.transactions[this.currentPosition].timestamp;
+
+        // trigger map update on click
+        this.emitNewEvents({
+          currentTransactions: this.transactions.filter(t => t.timestamp <= this.currentTime),
+          currentTime: this.currentTime
+        });
       },
       emitNewEvents(currentTransactions) {
         eventBus.$emit('newEvents', currentTransactions);

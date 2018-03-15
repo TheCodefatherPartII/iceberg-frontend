@@ -70,7 +70,6 @@ import { loaded } from "vue2-google-maps";
 import Vue from "vue";
 import providers from "../providers";
 import mapStyles from "../config/mapStyles";
-import api from '../api';
 import Icon from 'vue-awesome';
 import { eventBus } from "../main";
 
@@ -81,10 +80,14 @@ Vue.use(VueGoogleMaps, {
   }
 });
 
+const formatMoney = (val) => {
+  return `${val < 0 ? '-' : ''}$${Math.abs(val).toFixed(0)}`
+}
+
 // Hold the map markers.
 var mapMarkers = Array();
 var mapMarkersCache = [];
-var path;
+
 const drawTrafficLater = map => {
   const heatMapData = [
     { location: new google.maps.LatLng(-33.924443, 151.156456), weight: 0.5 },
@@ -112,37 +115,10 @@ const drawTrafficLater = map => {
   // const bikeLayer = new google.maps.BicyclingLayer();
   // bikeLayer.setMap(map);
 };
-const joinMarkers = (map) => {
-  var lineSymbol = {
-    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-  };
-  
-  const pathPoints = mapMarkers.map(marker => {
-    return marker.position;
-  });
-  path = new google.maps.Polyline({
-    path: pathPoints,
-    geodesic: true,
-    strokeColor: "#FFFFFF",
-    strokeOpacity: 1.0,
-    strokeWeight: 5,
-    icons: [
-      {
-        icon: lineSymbol,
-        offset: "100%"
-      }
-    ]
-  });
-  path.setMap(map);
-  //animateLineMarker(path);
-};
 
-const zoomInToCoverAllMarkers = map => {
+const zoomInToCoverAllMarkers = (map, positions) => {
   var bounds = new google.maps.LatLngBounds();
-  var pathPoints = mapMarkers.map(marker => {
-    return marker.position;
-  });
-  pathPoints.forEach(element => {
+  positions.forEach(element => {
     bounds.extend(element);
   });
   map.fitBounds(bounds);
@@ -156,6 +132,25 @@ function animateLineMarker(line) {
     icons[0].offset = count / 2 + "%";
     line.set("icons", icons);
   }, 20);
+}
+
+const newLine = () => {
+  const lineSymbol = {
+    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+  };
+  return new google.maps.Polyline({
+    path: [],
+    geodesic: true,
+    strokeColor: "#FFFFFF",
+    strokeOpacity: 1.0,
+    strokeWeight: 2,
+    icons: [
+      {
+        icon: lineSymbol,
+        offset: "100%"
+      }
+    ]
+  });
 }
 
 export default {
@@ -186,41 +181,55 @@ export default {
   created() {},
   mounted() {
     const map = this.$refs.map;
+    let line = newLine();
+    
     loaded.then(() => {
       // After map is loaded.
       map.$mapCreated.then(theMap => {
         // Add traffic layer.
         drawTrafficLater(theMap);
+        line.setMap(theMap);
         eventBus.$on("newEvents", newEvents => {
           const { currentTransactions: newTransactions, currentTime: newTime } = newEvents;
-          const deltaTransactions = newTransactions.filter(newTransaction => !(this.transactions || []).find(tx => tx.id === newTransaction.id));
-
           if (newTime < this.currentTime) {
-            path.setMap(null);
-            const transactionsToDelete = this.transactions.filter(tx => tx.timestamp > newTime) || [];
-            transactionsToDelete.forEach(tx => mapMarkersCache[Number(tx.id)].setMap(null));
+            const lastIndex = newTransactions.findIndex(t => t.timestamp === newTime);
+            line.setMap(null);
+            line = newLine();
+            line.setMap(theMap);
+
+            for (let i=0;i<mapMarkers.length;i++) {
+              if (i < lastIndex) {
+                line.getPath().push(mapMarkers[i].position);
+              } else {
+                mapMarkers[i].setMap(null);
+              }
+            }
+            mapMarkers = mapMarkers.filter(m => m.getMap() !== null);
+            
+            const transactionsToDelete = this.transactions.filter(tx => tx.timestamp >= newTime) || [];
             this.transactions = this.transactions.filter(tx => !transactionsToDelete.find(txToDel => txToDel.id === tx.id));
           }
           this.currentTime = newTime;
+          const deltaTransactions = newTransactions.filter(newTransaction => !(this.transactions || []).find(tx => tx.id === newTransaction.id));
 
           this.transactions = newTransactions;
           deltaTransactions.forEach(element => {
-            const { id } = element;
+            const { id, amount } = element;
             var image = 'https://image.ibb.co/dsuOVH/google_map_icon_google_maps_icon_blank_md.png';
             var marker = new google.maps.Marker({
               position: new google.maps.LatLng(element.lat, element.lng),
               animation: google.maps.Animation.DROP,
-              icon: image
+              icon: image,
+              title: formatMoney(amount),
             });
             marker.setMap(theMap);
             marker.metadata = { id };
-            mapMarkersCache[Number(id)] = marker;
             mapMarkers.push(marker);
             // Let's join the markers via path.
-            joinMarkers(theMap);
-            // Find the bound.
-            zoomInToCoverAllMarkers(theMap);
+            line.getPath().push(marker.position);
           });
+          // Find the bound.
+          zoomInToCoverAllMarkers(theMap, line.getPath());
         });
       });
     });
@@ -234,7 +243,6 @@ export default {
     toggleMenu() {
       this.menuClosed = !this.menuClosed;
     },
-    newTx() {}
   }
 };
 </script>
