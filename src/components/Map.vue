@@ -32,7 +32,7 @@
           <div class="info-content">
             <div :class="{deposit: selectedTransaction.amount >= 0, withdrawal: selectedTransaction.amount < 0}">
               <label>Amount</label>
-              <span>{{selectedTransaction.amount}}</span>
+              <span>{{formatMoney(selectedTransaction.amount)}}</span>
             </div>
             <div>
               <label>Timestamp</label>
@@ -108,10 +108,6 @@ Vue.use(VueGoogleMaps, {
     libraries: "visualization"
   }
 });
-
-const formatMoney = (val) => {
-  return `${val < 0 ? '-' : ''}$${Math.abs(val).toFixed(0)}`
-}
 
 // Hold the map markers.
 var mapMarkers = Array();
@@ -256,13 +252,12 @@ export default {
 
           this.transactions = newTransactions;
           deltaTransactions.forEach(element => {
-            const { id, amount } = element;
+            const { id } = element;
             var image = 'https://image.ibb.co/dsuOVH/google_map_icon_google_maps_icon_blank_md.png';
             var marker = new google.maps.Marker({
               position: new google.maps.LatLng(element.lat, element.lng),
               animation: google.maps.Animation.DROP,
-              icon: image,
-              title: formatMoney(amount),
+              icon: image
             });
             marker.addListener('click', clickHandler(element, theMap).bind(this));
             marker.setMap(theMap);
@@ -283,6 +278,9 @@ export default {
     }
   },
   methods: {
+    formatMoney(val) {
+      return `${val < 0 ? '-' : ''}$${Math.abs(val).toFixed(0)}`
+    },
     toggleMenu() {
       this.menuClosed = !this.menuClosed;
     },
