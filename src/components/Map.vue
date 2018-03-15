@@ -62,12 +62,8 @@ import { loaded } from "vue2-google-maps";
 import Vue from "vue";
 import providers from "../providers";
 import mapStyles from "../config/mapStyles";
-<<<<<<< HEAD
 import api from '../api';
 import { eventBus } from '../main';
-=======
-import api from "../api";
->>>>>>> 4e6b4166fe6eb93aa5e306147ef007c37d214402
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -152,11 +148,7 @@ function animateLineMarker(line) {
 
 export default {
   props: {
-<<<<<<< HEAD
     // transactions: Array,
-=======
-    transactions: Array
->>>>>>> 4e6b4166fe6eb93aa5e306147ef007c37d214402
   },
   data() {
     const mapConfig = providers.reduce((currentConfig, provider) => {
