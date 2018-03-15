@@ -60,7 +60,7 @@ export default {
           this.transactions = response.data.map(t => ({
             id : t.id,
             timestamp: new Date(t.timestamp),
-            amount: parseFloat(t.amount.replace('$', '')),
+            amount: parseFloat(t.amount.replace(/[$,]/g, '')),
             lat: parseFloat(t.lat),
             lng: parseFloat(t.lng),
           }))

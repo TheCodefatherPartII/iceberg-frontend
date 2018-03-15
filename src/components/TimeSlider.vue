@@ -134,7 +134,7 @@
                 ></time-chart>
             </div>
             <div class="track-foreground"></div>
-            <div class="handle" :style="{left: ((currentPosition * widthPerItem) + 26)+'px'}"></div>
+            <div class="handle" :style="{left: ((currentPosition * widthPerItem) + 30)+'px'}"></div>
         </div>
     </div>
 </template>
