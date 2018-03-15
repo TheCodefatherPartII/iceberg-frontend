@@ -95,6 +95,9 @@
 
       this.updateInterval();
     },
+    beforeDestroy() {
+      this.interval && clearInterval(this.interval);
+    },
     computed: {
       chartData() {
         return buildChartData(this.transactions)
