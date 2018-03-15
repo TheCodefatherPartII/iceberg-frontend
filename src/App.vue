@@ -112,7 +112,7 @@ body {
 .main-content {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: white;
+  color: #F0F3FE;
   font-size: 12px;
   display: flex;
   flex-direction: column;
@@ -126,33 +126,66 @@ body {
   display: flex;
   align-items: center;
   background-color: #182027;
-  color: white;
+  color: #F0F3FE;
 }
 .map-container {
   position: relative;
 }
 .overlay-menu {
+  width: 240px;
   position: absolute;
-  width: 210px;
-  top: 70px;
-  left: 30px;
+  top: 60px;
   z-index: 99;
-  /* display: flex; */
-  /* flex-direction: column; */
-  color: white;
+  color: #F0F3FE;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: width 250ms ease-in-out;
 }
 .overlay-menu-controls {
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
   background: #182027;
   opacity: 0.8;
+  justify-content: space-between;
+}
+.overlay-menu-controls > .body {
+  padding: 0 10px;
+  opacity: 100%;
+  transition: opacity 250ms ease-in-out;
+}
+.overlay-menu-controls > .toggle {
+  transition: all 250ms ease-in-out;
+  padding-right: 10px;
+  padding-left: 5px;
 }
 .overlay-menu-header {
-  padding: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
   background: #182027;
+  opacity: 100%;
+  transition: opacity 250ms ease-in-out;
 }
 .overlay-menu-footer {
   padding: 10px;
   background: #182027;
+  opacity: 100%;
+  transition: opacity 250ms ease-in-out;
+}
+.overlay-menu.closed {
+  width: 20px;
+}
+.overlay-menu.closed .overlay-menu-header,
+.overlay-menu.closed .overlay-menu-controls .body,
+.overlay-menu.closed .overlay-menu-footer {
+  opacity: 0;
+}
+.overlay-menu.closed .body {
+  order: 1;
+}
+.overlay-menu.closed .toggle {
+  order: 0;
+  padding-left: 2px;
 }
 .overlay-menu-controls-checkboxes {
   font-size: 11px;

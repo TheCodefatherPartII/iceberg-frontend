@@ -25,7 +25,7 @@
         ></gmap-marker>
       </gmap-map>
     </div>
-    <div class="overlay-menu">
+    <div v-bind:class="['overlay-menu', {closed: menuClosed }]">
       <div class="overlay-menu-header">
         <span>Criminal Doe</span>
         <br />
@@ -34,18 +34,26 @@
         <br />
       </div>
       <div class="overlay-menu-controls">
-        <span>23 March 2018</span>
-        <br>
-        <br>
-        <div class="overlay-menu-controls-checkboxes">
-          <label><input type="checkbox" name="crime" value="fin">&nbsp;Financial Activity</label><br>
-          <label><input type="checkbox" name="crime" value="geo">&nbsp;Geographic Location</label><br>
-          <label><input type="checkbox" name="crime" value="social">&nbsp;Interpersonal Network</label><br>
-          <label><input type="checkbox" name="crime" value="social">&nbsp;Social Media Activity Location</label><br>
-          <label><input type="checkbox" name="crime" value="social">&nbsp;Check-ins</label><br>
-          <label><input type="checkbox" name="crime" value="social">&nbsp;Suspicious Persons on Network</label><br>
+        <div class="body">
+          <span>23 March 2018</span>
+          <br>
+          <br>
+          <div class="overlay-menu-controls-checkboxes">
+            <label><input type="checkbox" name="crime" value="fin" checked>&nbsp;Financial Activity</label><br>
+            <label><input type="checkbox" name="crime" value="geo">&nbsp;Geographic Location</label><br>
+            <label><input type="checkbox" name="crime" value="social">&nbsp;Interpersonal Network</label><br>
+            <label><input type="checkbox" name="crime" value="social">&nbsp;Social Media Activity Location</label><br>
+            <label><input type="checkbox" name="crime" value="social">&nbsp;Check-ins</label><br>
+            <label><input type="checkbox" name="crime" value="social">&nbsp;Suspicious Persons on Network</label><br>
+          </div>
+          <br>
         </div>
-        <br>
+        <div class="toggle" @click="toggleMenu">
+          <icon 
+            :name="menuClosed ? 'chevron-right' : 'chevron-left'" 
+            v-bind:scale="menuClosed ? 1.5 : 1"
+          />
+        </div>
       </div>
       <div class="overlay-menu-footer">
         <span>Deposits</span><br>
@@ -63,6 +71,7 @@ import Vue from "vue";
 import providers from "../providers";
 import mapStyles from "../config/mapStyles";
 import api from '../api';
+import Icon from 'vue-awesome';
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -137,6 +146,9 @@ export default {
   props: {
     transactions: Array,
   },
+  components: {
+    Icon,
+  },
   data() {
     const mapConfig = providers.reduce((currentConfig, provider) => {
       const providerConfig = provider(this.transactions, currentConfig);
@@ -147,10 +159,11 @@ export default {
       return {
         ...currentConfig,
         ...providerConfig,
-        markers: mapMarkers
+        markers: mapMarkers,
+        menuClosed: false,
       };
     }, {});
-    return mapConfig;
+    return mapConfig
   },
   mounted() {
     const map = this.$refs.map;
@@ -168,6 +181,11 @@ export default {
     mapStyles() {
       return mapStyles;
     }
+  },
+  methods: {
+    toggleMenu() {
+      this.menuClosed = !this.menuClosed;
+    },
   }
 };
 </script>

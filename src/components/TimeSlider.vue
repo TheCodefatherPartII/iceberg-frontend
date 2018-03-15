@@ -112,7 +112,7 @@
         justify-content: center;
         border-radius: 50%;
         border: 2px solid white;
-        color: white;
+        color: #F0F3FE;
         margin-left: 10px;
         cursor: pointer;
     }
