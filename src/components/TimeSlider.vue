@@ -37,7 +37,10 @@
             }
             
             const currentTransactions = this.transactions.filter(t => t.timestamp <= this.currentTime);
-            this.emitNewEvents(currentTransactions);
+            this.emitNewEvents({
+                    currentTransactions,
+                    currentTime: this.currentTime
+                });
           }
         }, this.incrementDelay * 1000);
       },

@@ -83,6 +83,8 @@ Vue.use(VueGoogleMaps, {
 
 // Hold the map markers.
 var mapMarkers = Array();
+var mapMarkersCache = [];
+var path;
 const drawTrafficLater = map => {
   const heatMapData = [
     { location: new google.maps.LatLng(-33.924443, 151.156456), weight: 0.5 },
@@ -110,14 +112,15 @@ const drawTrafficLater = map => {
   // const bikeLayer = new google.maps.BicyclingLayer();
   // bikeLayer.setMap(map);
 };
-const joinMarkers = (map, pathPoints) => {
+const joinMarkers = (map) => {
   var lineSymbol = {
     path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
   };
-  var pathPoints = mapMarkers.map(marker => {
+  
+  const pathPoints = mapMarkers.map(marker => {
     return marker.position;
   });
-  var path = new google.maps.Polyline({
+  path = new google.maps.Polyline({
     path: pathPoints,
     geodesic: true,
     strokeColor: "#FFFFFF",
@@ -188,10 +191,21 @@ export default {
       map.$mapCreated.then(theMap => {
         // Add traffic layer.
         drawTrafficLater(theMap);
-        eventBus.$on("newEvents", newTransactions => {
+        eventBus.$on("newEvents", newEvents => {
+          const { currentTransactions: newTransactions, currentTime: newTime } = newEvents;
           const deltaTransactions = newTransactions.filter(newTransaction => !(this.transactions || []).find(tx => tx.id === newTransaction.id));
+
+          if (newTime < this.currentTime) {
+            path.setMap(null);
+            const transactionsToDelete = this.transactions.filter(tx => tx.timestamp > newTime) || [];
+            transactionsToDelete.forEach(tx => mapMarkersCache[Number(tx.id)].setMap(null));
+            this.transactions = this.transactions.filter(tx => !transactionsToDelete.find(txToDel => txToDel.id === tx.id));
+          }
+          this.currentTime = newTime;
+
           this.transactions = newTransactions;
           deltaTransactions.forEach(element => {
+            const { id } = element;
             var image = 'https://image.ibb.co/dsuOVH/google_map_icon_google_maps_icon_blank_md.png';
             var marker = new google.maps.Marker({
               position: new google.maps.LatLng(element.lat, element.lng),
@@ -199,6 +213,8 @@ export default {
               icon: image
             });
             marker.setMap(theMap);
+            marker.metadata = { id };
+            mapMarkersCache[Number(id)] = marker;
             mapMarkers.push(marker);
             // Let's join the markers via path.
             joinMarkers(theMap);
