@@ -58,6 +58,7 @@ export default {
           this.loading = false
           this.selectedAccountName = name
           this.transactions = response.data.map(t => ({
+            ...t,
             id : t.id,
             timestamp: new Date(t.timestamp),
             amount: parseFloat(t.amount.replace(/[$,]/g, '')),

@@ -25,6 +25,35 @@
         ></gmap-marker> -->
       </gmap-map>
     </div>
+    <div style="display: none">
+      <div id="infowindow">
+        <div v-if="selectedTransaction" class="info-wrapper">
+          <h1 class="info-title">Transaction details</h1>
+          <div class="info-content">
+            <div :class="{deposit: selectedTransaction.amount >= 0, withdrawal: selectedTransaction.amount < 0}">
+              <label>Amount</label>
+              <span>{{selectedTransaction.amount}}</span>
+            </div>
+            <div>
+              <label>Timestamp</label>
+              <span>{{selectedTransaction.timestamp.toLocaleString('en-AU')}}</span>
+            </div>
+            <div>
+              <label>Description</label>
+              <span>{{selectedTransaction.description}}</span>
+            </div>
+            <div>
+              <label>Location</label>
+              <span>{{selectedTransaction.lat}}, {{selectedTransaction.lng}}</span>
+            </div>
+            <div>
+              <label>Enrichment level</label>
+              <span>{{selectedTransaction.enrichment_level}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <div v-bind:class="['overlay-menu', {closed: menuClosed }]">
       <div class="overlay-menu-header">
         <span>Criminal Doe</span>
@@ -86,8 +115,6 @@ const formatMoney = (val) => {
 
 // Hold the map markers.
 var mapMarkers = Array();
-var mapMarkersCache = [];
-
 const drawTrafficLater = map => {
   const heatMapData = [
     { location: new google.maps.LatLng(-33.924443, 151.156456), weight: 0.5 },
@@ -153,6 +180,16 @@ const newLine = () => {
   });
 }
 
+const clickHandler = (transaction, map) => {
+  return function(event) {
+    this.selectedTransaction = transaction;
+    console.log(transaction);
+    this.infowindow.close();
+    this.infowindow.setPosition(event.latLng);
+    this.infowindow.open(map);
+  }
+};
+
 export default {
   props: {
     // transactions: Array,
@@ -172,6 +209,7 @@ export default {
         ...providerConfig,
         markers: mapMarkers,
         menuClosed: false,
+        selectedTransaction: null,
         ...providerConfig
         //markers: mapMarkers
       };
@@ -189,6 +227,10 @@ export default {
         // Add traffic layer.
         drawTrafficLater(theMap);
         line.setMap(theMap);
+        this.infowindow = new google.maps.InfoWindow;
+        this.infowindowContent = document.getElementById('infowindow');
+        this.infowindow.setContent(this.infowindowContent);
+        
         eventBus.$on("newEvents", newEvents => {
           const { currentTransactions: newTransactions, currentTime: newTime } = newEvents;
           if (newTime < this.currentTime) {
@@ -196,7 +238,7 @@ export default {
             line.setMap(null);
             line = newLine();
             line.setMap(theMap);
-
+            
             for (let i=0;i<mapMarkers.length;i++) {
               if (i < lastIndex) {
                 line.getPath().push(mapMarkers[i].position);
@@ -222,6 +264,7 @@ export default {
               icon: image,
               title: formatMoney(amount),
             });
+            marker.addListener('click', clickHandler(element, theMap).bind(this));
             marker.setMap(theMap);
             marker.metadata = { id };
             mapMarkers.push(marker);
@@ -253,4 +296,42 @@ export default {
   width: 100%;
   height: calc(100% - 20vh);
 }
+  
+  #infowindow {
+    color: #320000;
+    padding-right: 20px;
+  }
+  #infowindow h1 {
+    font-size: 18px;
+  }
+  .info-content {
+    display: flex;
+    flex-direction: column;
+    margin-right: -20px;
+  }
+  .info-content > div {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px;
+  }
+  .info-content > div > * {
+    display: inline-block;
+    flex-grow: 1;
+    min-width: 80px;
+  }
+  .info-content > div > :last-child {
+    text-align: right;
+  }
+  
+  .deposit {
+    background: rgba(242, 122, 75, 0.5);
+    border: 1px solid rgba(242, 122, 75, 0.9);
+    color: rgb(141, 58, 24);
+  }
+  .withdrawal {
+    background: rgba(125, 249, 75, 0.5);
+    border: 1px solid rgba(123, 245, 74, 0.9);
+    color: rgb(40, 83, 24);
+  }
+  
 </style>
