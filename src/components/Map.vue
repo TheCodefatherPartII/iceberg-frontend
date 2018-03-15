@@ -186,24 +186,20 @@ export default {
     loaded.then(() => {
       // After map is loaded.
       map.$mapCreated.then(theMap => {
+        // Add traffic layer.
+        drawTrafficLater(theMap);
         eventBus.$on("newEvents", newTransactions => {
-          console.log("🦖", "received", newTransactions);
-
           const deltaTransactions = newTransactions.filter(newTransaction => !(this.transactions || []).find(tx => tx.id === newTransaction.id));
-          console.log("🦖", "deltaTransactions", deltaTransactions);
           this.transactions = newTransactions;
-
           deltaTransactions.forEach(element => {
             var image = 'https://image.ibb.co/dsuOVH/google_map_icon_google_maps_icon_blank_md.png';
             var marker = new google.maps.Marker({
               position: new google.maps.LatLng(element.lat, element.lng),
               animation: google.maps.Animation.DROP,
-              icon: image,
-              map: theMap
+              icon: image
             });
-            mapMarkers.push(marker)
-            // Add traffic layer.
-            drawTrafficLater(theMap);
+            marker.setMap(theMap);
+            mapMarkers.push(marker);
             // Let's join the markers via path.
             joinMarkers(theMap);
             // Find the bound.
