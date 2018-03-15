@@ -13,7 +13,7 @@
         }"
         ref="map"
       >
-        <gmap-marker
+        <!-- <gmap-marker
           :key="index"
           v-for="(m, index) in markers"
           :position="m.position"
@@ -22,7 +22,7 @@
           :animation=2
           :icon="{url:'https://image.ibb.co/dsuOVH/google_map_icon_google_maps_icon_blank_md.png'}"
           @click="center=m.position"
-        ></gmap-marker>
+        ></gmap-marker> -->
       </gmap-map>
     </div>
     <div class="overlay-menu">
@@ -62,8 +62,8 @@ import { loaded } from "vue2-google-maps";
 import Vue from "vue";
 import providers from "../providers";
 import mapStyles from "../config/mapStyles";
-import api from '../api';
-import { eventBus } from '../main';
+import api from "../api";
+import { eventBus } from "../main";
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -73,7 +73,7 @@ Vue.use(VueGoogleMaps, {
 });
 
 // Hold the map markers.
-var mapMarkers;
+var mapMarkers = Array();
 const drawTrafficLater = map => {
   const heatMapData = [
     { location: new google.maps.LatLng(-33.924443, 151.156456), weight: 0.5 },
@@ -122,7 +122,7 @@ const joinMarkers = (map, pathPoints) => {
     ]
   });
   path.setMap(map);
-  animateLineMarker(path);
+  //animateLineMarker(path);
 };
 
 const zoomInToCoverAllMarkers = map => {
@@ -153,35 +153,48 @@ export default {
   data() {
     const mapConfig = providers.reduce((currentConfig, provider) => {
       const providerConfig = provider(this.transactions || [], currentConfig);
-      mapMarkers = [
-        ...(currentConfig.markers || []),
-        ...(providerConfig.markers || [])
-      ];
+      // mapMarkers = [
+      //   ...(currentConfig.markers || []),
+      //   ...(providerConfig.markers || [])
+      // ];
       return {
         ...currentConfig,
-        ...providerConfig,
-        markers: mapMarkers
+        ...providerConfig
+        //markers: mapMarkers
       };
     }, {});
     return mapConfig;
   },
-  created() {
-    eventBus.$on('newEvents', (newTransactions) => {
-      console.log('🦖', 'received',  newTransactions);
-      this.transactions = newTransactions;
-    });
-  },
+  created() {},
   mounted() {
     const map = this.$refs.map;
     loaded.then(() => {
       // After map is loaded.
       map.$mapCreated.then(theMap => {
-        // Add traffic layer.
-        drawTrafficLater(theMap);
-        // Let's join the markers via path.
-        joinMarkers(theMap);
-        // Find the bound.
-        zoomInToCoverAllMarkers(theMap);
+        eventBus.$on("newEvents", newTransactions => {
+          console.log("🦖", "received", newTransactions);
+
+          const deltaTransactions = newTransactions.filter(newTransaction => !(this.transactions || []).find(tx => tx.id === newTransaction.id));
+          console.log("🦖", "deltaTransactions", deltaTransactions);
+          this.transactions = newTransactions;
+
+          deltaTransactions.forEach(element => {
+            var image = 'https://image.ibb.co/dsuOVH/google_map_icon_google_maps_icon_blank_md.png';
+            var marker = new google.maps.Marker({
+              position: new google.maps.LatLng(element.lat, element.lng),
+              animation: google.maps.Animation.DROP,
+              icon: image,
+              map: theMap
+            });
+            mapMarkers.push(marker)
+            // Add traffic layer.
+            drawTrafficLater(theMap);
+            // Let's join the markers via path.
+            joinMarkers(theMap);
+            // Find the bound.
+            zoomInToCoverAllMarkers(theMap);
+          });
+        });
       });
     });
   },
@@ -189,9 +202,7 @@ export default {
     mapStyles() {
       return mapStyles;
     },
-    newTx() {
-      
-    }
+    newTx() {}
   }
 };
 </script>
