@@ -160,8 +160,7 @@ body {
   padding-left: 5px;
 }
 .overlay-menu-header {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 10px;
   background: #182027;
   opacity: 100%;
   transition: opacity 250ms ease-in-out;
@@ -173,7 +172,7 @@ body {
   transition: opacity 250ms ease-in-out;
 }
 .overlay-menu.closed {
-  width: 20px;
+  width: 22px;
 }
 .overlay-menu.closed .overlay-menu-header,
 .overlay-menu.closed .overlay-menu-controls .body,
