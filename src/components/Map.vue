@@ -141,9 +141,30 @@ const newLine = () => {
   return new google.maps.Polyline({
     path: [],
     geodesic: true,
-    strokeColor: "#FFFFFF",
+    strokeColor: "#00030E",
     strokeOpacity: 1.0,
-    strokeWeight: 2,
+    strokeWeight: 2.5,
+    zIndex: 1,
+    icons: [
+      {
+        icon: lineSymbol,
+        offset: "100%"
+      }
+    ]
+  });
+}
+
+const newSmallerLine = () => {
+  const lineSymbol = {
+    path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+  };
+  return new google.maps.Polyline({
+    path: [],
+    geodesic: true,
+    strokeColor: "#F0F3FE",
+    strokeOpacity: 1.0,
+    strokeWeight: 1.8,
+    zIndex: 10,
     icons: [
       {
         icon: lineSymbol,
@@ -182,6 +203,7 @@ export default {
   mounted() {
     const map = this.$refs.map;
     let line = newLine();
+    let smallerLine = newSmallerLine();
     
     loaded.then(() => {
       // After map is loaded.
@@ -189,17 +211,22 @@ export default {
         // Add traffic layer.
         drawTrafficLater(theMap);
         line.setMap(theMap);
+        smallerLine.setMap(theMap);
         eventBus.$on("newEvents", newEvents => {
           const { currentTransactions: newTransactions, currentTime: newTime } = newEvents;
           if (newTime < this.currentTime) {
             const lastIndex = newTransactions.findIndex(t => t.timestamp === newTime);
             line.setMap(null);
+            smallerLine.setMap(null);
             line = newLine();
+            smallerLine = newSmallerLine();
             line.setMap(theMap);
+            smallerLine.setMap(theMap);
 
             for (let i=0;i<mapMarkers.length;i++) {
               if (i < lastIndex) {
                 line.getPath().push(mapMarkers[i].position);
+                smallerLine.getPath().push(mapMarkers[i].position);
               } else {
                 mapMarkers[i].setMap(null);
               }
@@ -227,9 +254,11 @@ export default {
             mapMarkers.push(marker);
             // Let's join the markers via path.
             line.getPath().push(marker.position);
+            smallerLine.getPath().push(marker.position);
           });
           // Find the bound.
           zoomInToCoverAllMarkers(theMap, line.getPath());
+          // No need to do this again for smallerLine
         });
       });
     });
