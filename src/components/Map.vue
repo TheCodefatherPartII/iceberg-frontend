@@ -62,43 +62,48 @@ import { loaded } from "vue2-google-maps";
 import Vue from "vue";
 import providers from "../providers";
 import mapStyles from "../config/mapStyles";
+<<<<<<< HEAD
 import api from '../api';
 import { eventBus } from '../main';
+=======
+import api from "../api";
+>>>>>>> 4e6b4166fe6eb93aa5e306147ef007c37d214402
 
 Vue.use(VueGoogleMaps, {
   load: {
     key: "AIzaSyBRFyLekDBT0Zh0fF0I2zpcto38orRJ5OA",
-    libraries: 'visualization',
+    libraries: "visualization"
   }
 });
 
 // Hold the map markers.
 var mapMarkers;
 const drawTrafficLater = map => {
-const heatMapData = [
-  {location: new google.maps.LatLng(-33.924443, 151.156456), weight: 0.5},
-  {location: new google.maps.LatLng(-33.924137, 151.156512), weight: 1},
-  {location: new google.maps.LatLng(-33.923989, 151.156512), weight: 2},
-  {location: new google.maps.LatLng(-33.923244, 151.156422), weight: 2.5},
-  new google.maps.LatLng(-33.891553, 151.198384),
-  {location: new google.maps.LatLng(-33.914622, 151.165834), weight: 2},
-  {location: new google.maps.LatLng(-33.9075952, 151.180907), weight: 3},
-  {location: new google.maps.LatLng(-33.900063, 151.185382), weight: 2},
-  new google.maps.LatLng(-33.896862, 151.186208),
-  {location: new google.maps.LatLng(-33.891555, 151.198656), weight: 0.5},
-  {location: new google.maps.LatLng(-33.882062, 151.205801), weight: 3},
-  {location: new google.maps.LatLng(-33.881421, 151.207303), weight: 2},
-];
+  const heatMapData = [
+    { location: new google.maps.LatLng(-33.924443, 151.156456), weight: 0.5 },
+    { location: new google.maps.LatLng(-33.924137, 151.156512), weight: 1 },
+    { location: new google.maps.LatLng(-33.923989, 151.156512), weight: 2 },
+    { location: new google.maps.LatLng(-33.923244, 151.156422), weight: 2.5 },
+    new google.maps.LatLng(-33.891553, 151.198384),
+    { location: new google.maps.LatLng(-33.914622, 151.165834), weight: 2 },
+    { location: new google.maps.LatLng(-33.9075952, 151.180907), weight: 3 },
+    { location: new google.maps.LatLng(-33.900063, 151.185382), weight: 2 },
+    new google.maps.LatLng(-33.896862, 151.186208),
+    { location: new google.maps.LatLng(-33.891555, 151.198656), weight: 0.5 },
+    { location: new google.maps.LatLng(-33.882062, 151.205801), weight: 3 },
+    { location: new google.maps.LatLng(-33.881421, 151.207303), weight: 2 }
+  ];
 
   // let trafficLayer = new google.maps.TrafficLayer();
   // trafficLayer.setMap(map);
-  const heatmap = new google.maps.visualization.HeatmapLayer({data: heatMapData});
+  const heatmap = new google.maps.visualization.HeatmapLayer({
+    data: heatMapData
+  });
   heatmap.setMap(map);
   const transitLayer = new google.maps.TransitLayer();
   transitLayer.setMap(map);
   // const bikeLayer = new google.maps.BicyclingLayer();
   // bikeLayer.setMap(map);
-
 };
 const joinMarkers = (map, pathPoints) => {
   var lineSymbol = {
@@ -124,6 +129,17 @@ const joinMarkers = (map, pathPoints) => {
   animateLineMarker(path);
 };
 
+const zoomInToCoverAllMarkers = map => {
+  var bounds = new google.maps.LatLngBounds();
+  var pathPoints = mapMarkers.map(marker => {
+    return marker.position;
+  });
+  pathPoints.forEach(element => {
+    bounds.extend(element);
+  });
+  map.fitBounds(bounds);
+};
+
 function animateLineMarker(line) {
   var count = 0;
   window.setInterval(function() {
@@ -136,7 +152,11 @@ function animateLineMarker(line) {
 
 export default {
   props: {
+<<<<<<< HEAD
     // transactions: Array,
+=======
+    transactions: Array
+>>>>>>> 4e6b4166fe6eb93aa5e306147ef007c37d214402
   },
   data() {
     const mapConfig = providers.reduce((currentConfig, provider) => {
@@ -168,6 +188,8 @@ export default {
         drawTrafficLater(theMap);
         // Let's join the markers via path.
         joinMarkers(theMap);
+        // Find the bound.
+        zoomInToCoverAllMarkers(theMap);
       });
     });
   },
@@ -184,8 +206,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .map-container {
-    width: 100%;
-    height: calc(100% - 20vh);
-  }
+.map-container {
+  width: 100%;
+  height: calc(100% - 20vh);
+}
 </style>
