@@ -4,7 +4,7 @@
       <gmap-map
               class="wrapper"
         :center="center"
-        :zoom="15"
+        :zoom="3"
         :options="{
           styles: mapStyles,
           mapTypeControlOptions: {
@@ -132,7 +132,7 @@ const drawTrafficLater = map => {
   const heatmap = new google.maps.visualization.HeatmapLayer({
     data: heatMapData
   });
-  heatmap.setMap(map);
+  //heatmap.setMap(map);
   const transitLayer = new google.maps.TransitLayer();
   transitLayer.setMap(map);
   // const bikeLayer = new google.maps.BicyclingLayer();
