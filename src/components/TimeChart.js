@@ -16,6 +16,8 @@ export const chartOptions = {
       ticks: {
         fontSize: 8,
         lineHeight: 0.2,
+        maxRotation: 45,
+        minRotation: 45,
       }
     }],
     yAxes: [{

@@ -21,7 +21,8 @@
       </ul>
     </div>
     <div id="app" class="main-content" v-if="!loading && selectedAccountName">
-      <Map :transactions="transactions"/>
+      <!-- <Map :transactions="transactions"/> -->
+      <Map />
       <TimeSlider
               :start-time="startTime"
               :end-time="endTime"
@@ -57,6 +58,7 @@ export default {
           this.loading = false
           this.selectedAccountName = name
           this.transactions = response.data.map(t => ({
+            id : t.id,
             timestamp: new Date(t.timestamp),
             amount: parseFloat(t.amount.replace('$', '')),
             lat: parseFloat(t.lat),
